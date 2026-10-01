@@ -21,6 +21,14 @@ const SubjectList = () => {
   const [searchQuery, setSearch] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
 
+  const departmentFilters = selectedDepartment === 'all' ? [] :  [
+    {field: 'department', operator: 'eq' as const , value: selectedDepartment,}
+  ];
+  const searchFilters = searchQuery ? [
+    {field: 'name', operator: 'contains' as const, value: searchQuery},
+  ] : [];
+
+
   const subjectTable = useTable<Subject>({
     columns: useMemo<ColumnDef<Subject>[]>(() =>[
       {
@@ -29,13 +37,44 @@ const SubjectList = () => {
         size: 100,
         header: () => <p className={ "column-title ml-2 "}>Code</p>,
         cell: ({ getValue }) => <Badge>{getValue<string>()}</Badge>
+      },
+      {
+        id: 'name',
+        accessorKey: 'name',
+        size: 100,
+        header: () => <p className={ "column-title"}>Name</p>,
+        cell: ({ getValue }) =>
+          <span className ="test-foreground" >{getValue<string>()}</span>,
+        filterFn: 'includesString'
+      },
+      {
+        id: 'department',
+        accessorKey: 'department',
+        size: 200,
+        header: () => <p className={ "column-title"}>Department</p>,
+        cell: ({ getValue }) => <Badge variant = "secondary">{getValue<string>()}</Badge>,
+      },
+
+      {
+        id: 'description',
+        accessorKey: 'description',
+        size: 300,
+        header: () => <p className={ "column-title"}>Description</p>,
+        cell: ({ getValue }) => <span className='truncate line-clamp-2'>{getValue<string>()}</span>,
       }
+
     ], []),
     refineCoreProps: {
       resource: 'subjects',
       pagination: { pageSize : 10, mode:'server'},
-      filters: {},
-      sorters: {},
+      filters: {
+        permanent: [...departmentFilters, ...searchFilters]
+      },
+      sorters: {
+        initial:[
+          { field: 'id', order: 'desc'},
+        ]
+      },
     }
   });
 
@@ -95,7 +134,7 @@ const SubjectList = () => {
         </div>
 
       </div>
-      
+
       <DataTable table={subjectTable}/>
 
 
