@@ -2,6 +2,47 @@ import type { AuthProvider } from "@refinedev/core";
 import { User, SignUpPayload } from "@/types";
 import { authClient } from "@/lib/auth-client";
 
+const getSessionUser = async (): Promise<User | null> => {
+  try {
+    const { data, error } = await authClient.getSession();
+
+    if (error || !data?.user) {
+      return null;
+    }
+
+    const sessionUser = data.user as unknown as Partial<User> & {
+      role?: User["role"];
+      imageCldPubId?: string | null;
+      department?: string | null;
+      createdAt?: Date | string;
+      updatedAt?: Date | string;
+    };
+
+    if (!sessionUser.id || !sessionUser.email || !sessionUser.name) {
+      return null;
+    }
+
+    return {
+      id: sessionUser.id,
+      createdAt: sessionUser.createdAt
+        ? new Date(sessionUser.createdAt).toISOString()
+        : new Date().toISOString(),
+      updatedAt: sessionUser.updatedAt
+        ? new Date(sessionUser.updatedAt).toISOString()
+        : new Date().toISOString(),
+      email: sessionUser.email,
+      name: sessionUser.name,
+      role: (sessionUser.role as User["role"]) ?? "student",
+      image: sessionUser.image ?? undefined,
+      imageCldPubId: sessionUser.imageCldPubId ?? undefined,
+      department: sessionUser.department ?? undefined,
+    };
+  } catch (error) {
+    console.error("Session retrieval error:", error);
+    return null;
+  }
+};
+
 export const authProvider: AuthProvider = {
   register: async ({
     email,
@@ -12,7 +53,7 @@ export const authProvider: AuthProvider = {
     imageCldPubId,
   }: SignUpPayload) => {
     try {
-      const { data, error } = await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         name,
         email,
         password,
@@ -32,9 +73,6 @@ export const authProvider: AuthProvider = {
         };
       }
 
-      // Store user data
-      localStorage.setItem("user", JSON.stringify(data.user));
-
       return {
         success: true,
         redirectTo: "/",
@@ -52,7 +90,7 @@ export const authProvider: AuthProvider = {
   },
   login: async ({ email, password }) => {
     try {
-      const { data, error } = await authClient.signIn.email({
+      const { error } = await authClient.signIn.email({
         email: email,
         password: password,
       });
@@ -67,9 +105,6 @@ export const authProvider: AuthProvider = {
           },
         };
       }
-
-      // Store user data
-      localStorage.setItem("user", JSON.stringify(data.user));
 
       return {
         success: true,
@@ -117,7 +152,7 @@ export const authProvider: AuthProvider = {
     return { error };
   },
   check: async () => {
-    const user = localStorage.getItem("user");
+    const user = await getSessionUser();
 
     if (user) {
       return {
@@ -136,28 +171,26 @@ export const authProvider: AuthProvider = {
     };
   },
   getPermissions: async () => {
-    const user = localStorage.getItem("user");
+    const user = await getSessionUser();
 
     if (!user) return null;
-    const parsedUser: User = JSON.parse(user);
 
     return {
-      role: parsedUser.role,
+      role: user.role,
     };
   },
   getIdentity: async () => {
-    const user = localStorage.getItem("user");
+    const user = await getSessionUser();
 
     if (!user) return null;
-    const parsedUser: User = JSON.parse(user);
 
     return {
-      id: parsedUser.id,
-      name: parsedUser.name,
-      email: parsedUser.email,
-      image: parsedUser.image,
-      role: parsedUser.role,
-      imageCldPubId: parsedUser.imageCldPubId,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      role: user.role,
+      imageCldPubId: user.imageCldPubId,
     };
   },
 };
