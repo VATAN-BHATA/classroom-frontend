@@ -1,6 +1,5 @@
-const dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
-export default dashboard
+import { Navigate } from 'react-router';
+
+const Dashboard = () => <Navigate to="/subjects" replace />;
+
+export default Dashboard;

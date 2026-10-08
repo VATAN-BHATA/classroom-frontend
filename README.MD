@@ -15,6 +15,22 @@ A React Framework for building internal tools, admin panels, dashboards & B2B ap
 
 Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
 
+## Running the classroom app
+
+From the repository root, start the backend and frontend in separate terminals:
+
+```bash
+npm run dev:backend
+npm run dev
+```
+
+The backend requires `classroom-backend/.env` with a valid `DATABASE_URL`.
+Set `FRONTEND_URL` to the frontend origin when running outside local development.
+The frontend requires `classroom-frontend/.env`; copy `.env.example` there if
+needed. Its `VITE_BACKEND_BASE_URL` should point to the backend API, normally
+`http://localhost:8000/api/`. Open the URL printed by the frontend dev server;
+the home page redirects to the database-backed subjects list.
+
 ## Available Scripts
 
 ### Running the development server.
