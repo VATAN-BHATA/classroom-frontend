@@ -1,16 +1,16 @@
 "use client";
 
-import React from "react";
-import { useTheme } from "./theme-provider";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Moon, Sun, Monitor, ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Check, ChevronDown, Monitor, Moon, Sun } from "lucide-react";
+import React from "react";
+import { useTheme } from "./theme-provider";
 
 type ThemeOption = {
   value: "light" | "dark" | "system";

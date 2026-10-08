@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
-import { type BaseKey, useDeleteButton } from "@refinedev/core";
-import { Loader2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { type BaseKey, useDeleteButton } from "@refinedev/core";
+import { Loader2, Trash } from "lucide-react";
+import React from "react";
 
 type DeleteButtonProps = {
   /**

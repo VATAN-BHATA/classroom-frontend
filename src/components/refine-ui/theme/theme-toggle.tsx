@@ -3,7 +3,7 @@
 import { useTheme } from "@/components/refine-ui/theme/theme-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 
 type ThemeToggleProps = {
   className?: string;
@@ -38,8 +38,8 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         "border-sidebar-border",
         "bg-transparent",
         className,
-        "h-10",
-        "w-10"
+        "h-9",
+        "w-9"
       )}
     >
       <Sun
