@@ -21,8 +21,8 @@ const SubjectList = () => {
   const [searchQuery, setSearch] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('all');
 
-  const departmentFilters = selectedDepartment === 'all' ? [] :  [
-    {field: 'department', operator: 'eq' as const , value: selectedDepartment,}
+  const departmentFilters = selectedDepartment === 'all' ? [] : [
+    { field: 'department.name', operator: 'eq' as const, value: selectedDepartment }
   ];
   const searchFilters = searchQuery ? [
     {field: 'name', operator: 'contains' as const, value: searchQuery},
@@ -49,7 +49,7 @@ const SubjectList = () => {
       },
       {
         id: 'department',
-        accessorKey: 'department',
+        accessorKey: 'department.name',
         size: 200,
         header: () => <p className={ "column-title"}>Department</p>,
         cell: ({ getValue }) => <Badge variant = "secondary">{getValue<string>()}</Badge>,
