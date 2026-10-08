@@ -1,19 +1,14 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
 import { useTranslate, type CrudOperators } from "@refinedev/core";
 import type { Column, Table as ReactTable } from "@tanstack/react-table";
-import type { DateRange } from "react-day-picker";
 import { Check, ChevronsUpDown, ListFilter, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import type { DateRange } from "react-day-picker";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Command,
   CommandEmpty,
@@ -22,8 +17,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 
 export type DataTableFilterDropdownProps<TData> = {
@@ -865,14 +865,6 @@ const CRUD_OPERATOR_LABELS: Record<
   nendswiths: {
     i18nKey: "table.filter.operator.nendswiths",
     defaultLabel: "Not ends with (case sensitive)",
-  },
-  eqs: {
-    i18nKey: "table.filter.operator.eqs",
-    defaultLabel: "Equals (case sensitive)",
-  },
-  nes: {
-    i18nKey: "table.filter.operator.nes",
-    defaultLabel: "Not equals (case sensitive)",
   },
 };
 

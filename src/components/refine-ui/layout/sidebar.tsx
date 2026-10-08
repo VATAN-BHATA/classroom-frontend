@@ -1,20 +1,11 @@
 "use client";
 
-import React from "react";
+import { Button } from "@/components/ui/button";
 import {
-  useMenu,
-  useLink,
-  useRefineOptions,
-  type TreeMenuItem,
-} from "@refinedev/core";
-import {
-  SidebarRail as ShadcnSidebarRail,
-  Sidebar as ShadcnSidebar,
-  SidebarContent as ShadcnSidebarContent,
-  SidebarHeader as ShadcnSidebarHeader,
-  useSidebar as useShadcnSidebar,
-  SidebarTrigger as ShadcnSidebarTrigger,
-} from "@/components/ui/sidebar";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,13 +13,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, ListIcon } from "lucide-react";
+  Sidebar as ShadcnSidebar,
+  SidebarContent as ShadcnSidebarContent,
+  SidebarHeader as ShadcnSidebarHeader,
+  SidebarRail as ShadcnSidebarRail,
+  SidebarTrigger as ShadcnSidebarTrigger,
+  useSidebar as useShadcnSidebar,
+} from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import {
+  useLink,
+  useMenu,
+  useRefineOptions,
+  type TreeMenuItem,
+} from "@refinedev/core";
+import { ChevronRight, ListIcon } from "lucide-react";
+import React from "react";
 
 export function Sidebar() {
   const { open } = useShadcnSidebar();
